@@ -1,8 +1,32 @@
 {
   "$schema": "https://json.schemastore.org/nest-cli",
   "collection": "@nestjs/schematics",
-  "sourceRoot": "src",
+  "sourceRoot": "apps/core-mattress-api/src",
   "compilerOptions": {
-    "deleteOutDir": true
+    "deleteOutDir": true,
+    "webpack": true,
+    "tsConfigPath": "apps/core-mattress-api/tsconfig.app.json"
+  },
+  "monorepo": true,
+  "root": "apps/core-mattress-api",
+  "projects": {
+    "core-mattress-api": {
+      "type": "application",
+      "root": "apps/core-mattress-api",
+      "entryFile": "main",
+      "sourceRoot": "apps/core-mattress-api/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/core-mattress-api/tsconfig.app.json"
+      }
+    },
+    "core-mattress-batch": {
+      "type": "application",
+      "root": "apps/core-mattress-batch",
+      "entryFile": "main",
+      "sourceRoot": "apps/core-mattress-batch/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/core-mattress-batch/tsconfig.app.json"
+      }
+    }
   }
 }
