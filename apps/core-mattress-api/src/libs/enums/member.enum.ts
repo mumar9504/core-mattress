@@ -23,7 +23,7 @@ registerEnumType(MemberStatus, {
 export enum MemberAuthType {
 	PHONE = 'PHONE',
 	EMAIL = 'EMAIL',
-	KAKAOTALK = 'KAKAOTALK',
+	//KAKAOTALK = 'KAKAOTALK',
 	TELEGRAM = 'TELEGRAM',
 }
 
