@@ -9,25 +9,41 @@ export class MemberResolver {
 
 	@Mutation(() => Member)
 	public async signup(@Args('input') input: MemberInput): Promise<Member> {
-			console.log('Mutation: signup');
-			return this.memberService.signup(input);
+		console.log('Mutation: signup');
+		return await this.memberService.signup(input);
 	}
 
 	@Mutation(() => Member)
 	public async login(@Args('input') input: LoginInput): Promise<Member> {
-			console.log('Mutation: login');
-			return this.memberService.login(input);
+		console.log('Mutation: login');
+		return await this.memberService.login(input);
 	}
 
+	// Authenticated (USER, AGENT, ADMIN => bu yerda faqatgina LOGIN bo'lgan user bo'lsa yetarli)
 	@Mutation(() => String)
-	public async updateMember(): Promise<string> {
+	public async updateMember(): Promise<String> {
 		console.log('Mutation: updateMember');
-		return this.memberService.updateMember();
+		return await this.memberService.updateMember();
 	}
 
 	@Query(() => String)
-	public async getMember(): Promise<string> {
+	public async getMember(): Promise<String> {
 		console.log('Query: getMember');
-		return this.memberService.getMember();
+		return await this.memberService.getMember();
 	}
+
+	/** ADMIN **/
+
+	// Authorization: ADMIN
+	@Query(() => String)
+	public async getAllMembersByAdmin(): Promise<string> {
+		return await this.memberService.getAllMembersByAdmin();
+	}
+
+	@Mutation(() => String)
+	public async updateMemberByAdmin(): Promise<string> {
+		console.log('Mutation: updateMemberByAdmin');
+		return await this.memberService.updateMemberByAdmin();
+	}
+
 }
