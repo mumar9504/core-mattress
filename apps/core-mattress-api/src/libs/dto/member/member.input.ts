@@ -1,9 +1,8 @@
 import { Field, InputType, Int } from '@nestjs/graphql';
 import { IsIn, IsNotEmpty, IsOptional, Length, Min } from 'class-validator';
 import { MemberAuthType, MemberStatus, MemberType } from '../../enums/member.enum';
-import { availableAgentSorts } from '../../config';
+import { availableAgentSorts, availableMemberSorts } from '../../config';
 import { Direction } from '../../enums/common.enum';
-//import { Direction } from '../../enums/common.enum';
 
 @InputType()
 export class MemberInput {
@@ -76,43 +75,43 @@ export class AgentsInquiry {
 	search: AISearch;
 }
 
-// @InputType()
-// class MISearch {
-// 	@IsOptional()
-// 	@Field(() => MemberType, { nullable: true })
-// 	memberType?: MemberType;
+@InputType()
+class MISearch {
+	@IsOptional()
+	@Field(() => MemberType, { nullable: true })
+	memberType?: MemberType;
 
-// 	@IsOptional()
-// 	@Field(() => MemberStatus, { nullable: true })
-// 	memberStatus?: MemberStatus;
+	@IsOptional()
+	@Field(() => MemberStatus, { nullable: true })
+	memberStatus?: MemberStatus;
 
-// 	@IsOptional()
-// 	@Field(() => String, { nullable: true })
-// 	text?: string;
-// }
+	@IsOptional()
+	@Field(() => String, { nullable: true })
+	text?: string;
+}
 
-// @InputType()
-// export class MembersInquiry {
-// 	@IsNotEmpty()
-// 	@Min(1)
-// 	@Field(() => Int)
-// 	page: number;
+@InputType()
+export class MembersInquiry {
+	@IsNotEmpty()
+	@Min(1)
+	@Field(() => Int)
+	page: number;
 
-// 	@IsNotEmpty()
-// 	@Min(1)
-// 	@Field(() => Int)
-// 	limit: number;
+	@IsNotEmpty()
+	@Min(1)
+	@Field(() => Int)
+	limit: number;
 
-// 	@IsOptional()
-// 	@IsIn([availableMemberSorts])
-// 	@Field(() => String, { nullable: true })
-// 	sort?: string;
+	@IsOptional()
+	@IsIn([availableMemberSorts])
+	@Field(() => String, { nullable: true })
+	sort?: string;
 
-// 	@IsOptional()
-// 	@Field(() => Direction, { nullable: true })
-// 	direction?: Direction;
+	@IsOptional()
+	@Field(() => Direction, { nullable: true })
+	direction?: Direction;
 
-// 	@IsNotEmpty()
-// 	@Field(() => MISearch)
-// 	search: MISearch;
-// }
+	@IsNotEmpty()
+	@Field(() => MISearch)
+	search: MISearch;
+}

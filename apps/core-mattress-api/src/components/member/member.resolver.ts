@@ -1,6 +1,6 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { MemberService } from './member.service';
-import { AgentsInquiry, LoginInput, MemberInput } from '../../libs/dto/member/member.input';
+import { AgentsInquiry, LoginInput, MemberInput, MembersInquiry } from '../../libs/dto/member/member.input';
 import { Member, Members } from '../../libs/dto/member/member';
 import { UseGuards } from '@nestjs/common';
 import { AuthGuard } from '../auth/guards/auth.guard';
@@ -31,7 +31,7 @@ export class MemberResolver {
 
 	// Authenticanni tekshirish
 	@UseGuards(AuthGuard)
-	@Mutation(() => String)
+	@Query(() => String)
 	public async checkAuth(@AuthMember('memberNick') memberNick: string): Promise<string> {
 		console.log('Mutation: checkAuth');
 		//console.log(typeof memberId);
@@ -42,7 +42,7 @@ export class MemberResolver {
 	// Athorizationni tekshirish
 	@Roles(MemberType.USER, MemberType.AGENT)
 	@UseGuards(RolesGuard)
-	@Mutation(() => String)
+	@Query(() => String)
 	public async checkAuthRoles(@AuthMember() authMember: Member): Promise<string> {
 		console.log('Mutation: checkAuthRoles');
 		return `Hi ${authMember.memberNick}, you are ${authMember.memberType}(memberId: ${authMember._id})!`;
@@ -86,15 +86,18 @@ export class MemberResolver {
 	// Authorization: ADMIN
 	@Roles(MemberType.ADMIN)
 	@UseGuards(RolesGuard)
-	@Mutation(() => String)
-	public async getAllMembersByAdmin(): Promise<string> {
-		return await this.memberService.getAllMembersByAdmin();
+	@Query(() => Members)
+	public async getAllMembersByAdmin(@Args('input') input: MembersInquiry): Promise<Members> {
+		console.log('Query: getAllMembersByAdmin');
+		return await this.memberService.getAllMembersByAdmin(input);
 	}
 
-	@Mutation(() => String)
-	public async updateMemberByAdmin(): Promise<string> {
+	@Roles(MemberType.ADMIN)
+	@UseGuards(RolesGuard)
+	@Mutation(() => Member)
+	public async updateMemberByAdmin(@Args('input') input: MemberUpdate): Promise<Member> {
 		console.log('Mutation: updateMemberByAdmin');
-		return await this.memberService.updateMemberByAdmin();
+		return await this.memberService.updateMemberByAdmin(input);
 	}
 
 }
