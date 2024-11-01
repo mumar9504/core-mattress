@@ -19,7 +19,7 @@ export enum Message {
   TOKEN_NOT_EXIST = "Bearer Token is not provided!",
   ONLY_SPECIFIC_ROLES_ALLOWED = "Allowed only for members with specific roles!",
   NOT_ALLOWED_REQUEST = "You are not Allowed Request!",
-  PROVIDE_ALLOWED_FORMAT = "Please provide jpg, jpeg or png images!",
+  PROVIDE_ALLOWED_FORMAT = "Please provide jpg, jpeg, png or webp images!",
   SELF_SUBSCRIPTION_DENIED = "Self subscription is denied!",
 }
 
