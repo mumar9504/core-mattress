@@ -13,12 +13,13 @@ import { ViewService } from '../view/view.service';
 
 @Injectable()
 export class MemberService {
-  constructor(@InjectModel('Member') private readonly memberModel: Model<Member>,
-	private authService: AuthService,
-	private viewService: ViewService,
-) {}
+	constructor(
+		@InjectModel('Member') private readonly memberModel: Model<Member>,
+		private authService: AuthService,
+		private viewService: ViewService,
+	) {}
 
-  public async signup(input: MemberInput): Promise<Member> {
+	public async signup(input: MemberInput): Promise<Member> {
 		// hASH PASSWORD
 		input.memberPassword = await this.authService.hashPassword(input.memberPassword);
 		try {
@@ -32,7 +33,7 @@ export class MemberService {
 		}
 	}
 
-  public async login(input: LoginInput): Promise<Member> {
+	public async login(input: LoginInput): Promise<Member> {
 		const { memberNick, memberPassword } = input;
 		//console.log('input:', input);
 		const response: Member = await this.memberModel
@@ -55,7 +56,7 @@ export class MemberService {
 		return response;
 	}
 
-  public async updateMember(memberId: ObjectId, input: MemberUpdate): Promise<Member> {
+	public async updateMember(memberId: ObjectId, input: MemberUpdate): Promise<Member> {
 		const result: Member = await this.memberModel
 			.findOneAndUpdate(
 				{
@@ -72,7 +73,7 @@ export class MemberService {
 		return result;
 	}
 
-  public async getMember(memberId: ObjectId, targetId: ObjectId): Promise<Member> {
+	public async getMember(memberId: ObjectId, targetId: ObjectId): Promise<Member> {
 		const search: T = {
 			_id: targetId,
 			memberStatus: {

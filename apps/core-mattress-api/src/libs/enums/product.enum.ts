@@ -1,9 +1,9 @@
 import { registerEnumType } from '@nestjs/graphql';
 
 export enum ProductCategory {
-	침실 = '침실',
-	거실 = '거실',
-	주방 = '주방',
+	BEDROOM = 'BEDROOM',                     // 침실
+	LIVINGROOM = 'LIVINGROOM',               // 거실
+	KITCHEN = 'KITCHEN',                     // 주방
 }
 
 registerEnumType(ProductCategory, {
