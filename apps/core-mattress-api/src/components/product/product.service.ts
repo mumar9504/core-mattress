@@ -12,6 +12,9 @@ import { ViewGroup } from '../../libs/enums/view.enum';
 import { ProductUpdate } from '../../libs/dto/product/product.update';
 import * as moment from 'moment';
 import { lookupMember, shapeIntoMongoObjectId } from '../../libs/config';
+import { LikeInput } from '../../libs/dto/like/like.input';
+import { LikeGroup } from '../../libs/enums/like.enum';
+import { LikeService } from '../like/like.service';
 
 @Injectable()
 export class ProductService {
@@ -19,7 +22,7 @@ export class ProductService {
     @InjectModel('Product') private readonly productModel: Model<Product>,
     private readonly memberService: MemberService,
     private readonly viewService: ViewService,
-
+		private readonly likeService: LikeService,
   ) {}
 
   public async createProduct(input: ProductInput): Promise<Product> {
@@ -177,6 +180,25 @@ export class ProductService {
 
 		if (!result.length) throw new InternalServerErrorException(Message.NO_DATA_FOUND);
 		return result[0];
+	}
+
+	public async likeTargetProduct(memberId: ObjectId, likeRefId: ObjectId): Promise<Product> {
+		const target: Product = await this.productModel
+			.findOne({ _id: likeRefId, productStatus: ProductStatus.ACTIVE })
+			.exec();
+		if (!target) throw new InternalServerErrorException(Message.NO_DATA_FOUND);
+
+		const input: LikeInput = {
+			memberId: memberId,
+			likeRefId: likeRefId,
+			likeGroup: LikeGroup.PRODUCT,
+		};
+
+		const modifier: number = await this.likeService.toggleLike(input);
+		const result = await this.productStatsEditor({ _id: likeRefId, targetKey: 'productLikes', modifier: modifier });
+
+		if (!result) throw new InternalServerErrorException(Message.SOMETHING_WENT_WRONG);
+		return result;
 	}
 
   /** ADMIN **/
