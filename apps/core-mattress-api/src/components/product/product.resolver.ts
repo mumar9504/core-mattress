@@ -5,7 +5,7 @@ import { MemberType } from '../../libs/enums/member.enum';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { Roles } from '../auth/decorators/roles.decorator';
 import { Product, Products } from '../../libs/dto/product/product';
-import { ProductInput, ProductsInquiry } from '../../libs/dto/product/product.input';
+import { AgentProductsInquiry, ProductInput, ProductsInquiry } from '../../libs/dto/product/product.input';
 import { AuthMember } from '../auth/decorators/authMember.decorator';
 import { ObjectId } from 'mongoose';
 import { WithoutGuard } from '../auth/guards/without.guard';
@@ -59,5 +59,16 @@ export class ProductResolver {
 	): Promise<Products> {
 		console.log('Query:, getProducts');
 		return await this.productService.getProducts(memberId, input);
+	}
+
+  @Roles(MemberType.AGENT)
+	@UseGuards(RolesGuard)
+	@Query(() => Products)
+	public async getAgentProducts(
+		@Args('input') input: AgentProductsInquiry,
+		@AuthMember('_id') memberId: ObjectId,
+	): Promise<Products> {
+		console.log('Query: getAgentProducts');
+		return await this.productService.getAgentProducts(memberId, input);
 	}
 }
