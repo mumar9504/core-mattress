@@ -15,15 +15,15 @@ export class ProductInput {
 	@Field(() => ProductType)
 	productType: ProductType;
 
-	@IsOptional() // O'zgartirish kiritildi
+	@IsOptional() 
 	@Field(() => ProductChairType, { nullable: true }) 
 	productChairType?: ProductChairType;
 
-	@IsOptional() // O'zgartirish kiritildi
+	@IsOptional() 
 	@Field(() => ProductSofaType, { nullable: true }) 
 	productSofaType?: ProductSofaType;
 
-	@IsOptional() // O'zgartirish kiritildi
+	@IsOptional() 
 	@Field(() => ProductDiningTableType, { nullable: true }) 
 	productDiningTableType?: ProductDiningTableType;
 
@@ -69,15 +69,6 @@ export class PricesRange {
 	@Field(() => Int)
     end: number;
  }
-
-// @InputType()
-// export class SquaresRange { 
-// 	@Field(() => Int)
-// 	start: number;
-
-// 	@Field(() => Int)
-//     end: number;
-// }
 
 @InputType()
 export class PeriodsRange {
@@ -232,15 +223,15 @@ export class AllProductsInquiry {
 	search: ALPISearch;
 }
 
-// @InputType()
-// export class OrdinaryInquiry {
-// 	@IsNotEmpty()
-// 	@Min(1)
-// 	@Field(() => Int)
-// 	page: number;
+@InputType()
+export class OrdinaryInquiry {
+	@IsNotEmpty()
+	@Min(1)
+	@Field(() => Int)
+	page: number;
 
-// 	@IsNotEmpty()
-// 	@Min(1)
-// 	@Field(() => Int)
-// 	limit: number;
-// }
+	@IsNotEmpty()
+	@Min(1)
+	@Field(() => Int)
+	limit: number;
+}

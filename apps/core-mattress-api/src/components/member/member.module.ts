@@ -5,6 +5,8 @@ import { MongooseModule } from '@nestjs/mongoose';
 import MemberSchema from '../../schemas/Member.model';
 import { AuthModule } from '../auth/auth.module';
 import { ViewModule } from '../view/view.module';
+import { Like } from '../../libs/dto/like/like';
+import { LikeModule } from '../like/like.module';
 
 @Module({
 	imports: [MongooseModule.forFeature([
@@ -13,7 +15,8 @@ import { ViewModule } from '../view/view.module';
 			schema: MemberSchema 
 		}]), 
 		AuthModule,
-		ViewModule
+		ViewModule,
+		LikeModule
 	],
 	providers: [MemberResolver, MemberService],
 	exports: [MemberService]
