@@ -13,6 +13,8 @@ registerEnumType(ProductCategory, {
 export enum ProductType {
 	MATTRESS = 'MATTRESS',             // 매트리스
 	BED_FRAME = 'BED_FRAME',           // 침대프레임
+	BABY_BED = 'BABY_BED',             // 유아동침대
+	BEDROOM_SET = 'BEDROOM_SET',       // 침실세트
 	SOFA = 'SOFA',                     // 소파
 	TABLE = 'TABLE',                   // 테이블
 	CHAIR = 'CHAIR',                   // 의자
@@ -29,19 +31,6 @@ export enum ProductType {
 
 registerEnumType(ProductType, {
 	name: 'ProductType',
-});
-
-export enum ProductBedType {
-	MATTRESS = 'MATTRESS',             // 매트리스
-	BED_FRAME = 'BED_FRAME',           // 침대프레임
-	TOPPER = 'TOPPER',                 // 토퍼
-	BEDROOM_SET = 'BEDROOM_SET',       // 침실세트
-	BABY_BED = 'BABY_BED',             // 유아동침대
-	COVER = 'COVER',                   // 커버
-}
-
-registerEnumType(ProductBedType, {
-	name: 'ProductBedType',
 });
 
 export enum ProductChairType {
@@ -91,8 +80,6 @@ export enum ProductDiningTableType {
 	TABLE_AND_CHAIR_SET = 'TABLE_AND_CHAIR_SET',        // 식탁/의자
 	//DISH_CABINET = 'DISH_CABINET',                      // 그릇장/컵보드
 	KITCHEN_STORAGE_CABINET = 'KITCHEN_STORAGE_CABINET', // 주방수납장
-	//TROLLEY = 'TROLLEY',                                // 트롤리
-	//MICROWAVE_STAND = 'MICROWAVE_STAND',                // 레인지대
 	//OTHER_KITCHEN_FURNITURE = 'OTHER_KITCHEN_FURNITURE', // 기타주방가구
 	SIZE_BASED_TABLE = 'SIZE_BASED_TABLE',              // 사이즈별 식탁
 	SHAPE_BASED_TABLE = 'SHAPE_BASED_TABLE',            // 형태별 식탁
@@ -125,19 +112,19 @@ export enum ProductMattressThickness {
 }
 
 registerEnumType(ProductMattressThickness, {
-	name: 'ProductThickness',
+	name: 'ProductMattressThickness',
 });
 
 export enum ProductBadMattressSize {
-	SINGLE = 'Single',       // 싱글매트리스
-	SUPER_SINGLE = 'Super Single', // 슈퍼싱글매트리스
-	DOUBLE = 'Double',       // 더블매트리스
-	QUEEN = 'Queen',         // 퀸매트리스
-	KING = 'King',           // 킹매트리스
+	SINGLE = 'SINGLE',       // 싱글매트리스
+	SUPER_SINGLE = 'SUPER SINGLE', // 슈퍼싱글매트리스
+	DOUBLE = 'DOUBLE',       // 더블매트리스
+	QUEEN = 'QUEEN',         // 퀸매트리스
+	KING = 'KING',           // 킹매트리스
 }
 
 registerEnumType(ProductBadMattressSize, {
-	name: 'ProductSize',
+	name: 'ProductBadMattressSize',
 });
 
 

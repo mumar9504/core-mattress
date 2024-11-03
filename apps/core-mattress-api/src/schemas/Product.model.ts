@@ -1,7 +1,6 @@
 import { Schema } from 'mongoose';
 import {
 	ProductBadMattressSize,
-	ProductBedType,
 	ProductCategory,
 	ProductChairType,
 	ProductDiningTableType,
@@ -19,28 +18,22 @@ const ProductSchema = new Schema(
 			required: true,
 		},
 
-		productBedType: {
-			type: String,
-			enum: ProductBedType,
-			required: true,
-		},
-
 		productChairType: {
 			type: String,
 			enum: ProductChairType,
-			required: true,
+			required: false, // required olib tashlandi yoki false qilib belgilandi
 		},
 
 		productSofaType: {
 			type: String,
 			enum: ProductSofaType,
-			required: true,
+			required: false, // required olib tashlandi yoki false qilib belgilandi
 		},
 
 		productDiningTableType: {
 			type: String,
 			enum: ProductDiningTableType,
-			required: true,
+			required: false, // required olib tashlandi yoki false qilib belgilandi
 		},
 
 		productStatus: {
@@ -66,13 +59,13 @@ const ProductSchema = new Schema(
 		},
 
 		productMattressThickness: {
-			type: Number,
+			type: String,
 			enum: ProductMattressThickness,
 			required: true,
 		},
 
 		productBadMattressSize: {
-			type: Number,
+			type: String,
 			enum: ProductBadMattressSize,
 			required: true,
 		},
