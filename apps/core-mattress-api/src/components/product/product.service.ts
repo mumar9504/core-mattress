@@ -179,19 +179,6 @@ export class ProductService {
 		return result[0];
 	}
 
-  public async productStatsEditor(input: StatisticModifier): Promise<Product> {
-		const { _id, targetKey, modifier } = input;
-		return await this.productModel
-			.findByIdAndUpdate(
-				_id,
-				{
-					$inc: { [targetKey]: modifier },
-				},
-				{ new: true },
-			)
-			.exec();
-	}
-
   /** ADMIN **/
 
 	public async getAllProductsByAdmin(input: AllProductsInquiry): Promise<Products> {
@@ -248,5 +235,26 @@ export class ProductService {
 			});
 		}
 		return result;
+	}
+
+  public async removeProductByAdmin(productId: ObjectId): Promise<Product> {
+		const search: T = { _id: productId, productStatus: ProductStatus.DELETE };
+		const result = await this.productModel.findOneAndDelete(search).exec();
+		if (!result) throw new InternalServerErrorException(Message.REMOVE_FAILED);
+
+		return result;
+	}
+
+  public async productStatsEditor(input: StatisticModifier): Promise<Product> {
+		const { _id, targetKey, modifier } = input;
+		return await this.productModel
+			.findByIdAndUpdate(
+				_id,
+				{
+					$inc: { [targetKey]: modifier },
+				},
+				{ new: true },
+			)
+			.exec();
 	}
 }
