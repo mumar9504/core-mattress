@@ -39,6 +39,38 @@ export const lookupMember = {
 	},
 };
 
+export const lookupAuthMemberLiked = (memberId: T, targetRefId: string = '$_id') => {
+	return {
+	 $lookup: {
+		from: 'likes',
+		let: {
+		 localLikeRefId: targetRefId,
+		 localMemberId: memberId,
+		 localMyFavorite: true,
+		},
+		pipeline: [
+		 {
+			$match: {
+			 $expr: {
+				$and: [{ $eq: ['$likeRefId', '$$localLikeRefId'] }, { $eq: ['$memberId', '$$localMemberId'] }],
+			 },
+			},
+		 },
+		 {
+			$project: {
+			 _id: 0,
+			 memberId: 1,
+			 likeRefId: 1,
+			 myFavorite: '$$localMyFavorite',
+			},
+		 },
+		],
+		as: 'meLiked',
+	 },
+	};
+ };
+ 
+
 export const lookupFavorite = {
 	$lookup: {
 		from: 'members',
