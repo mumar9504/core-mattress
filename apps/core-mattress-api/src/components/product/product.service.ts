@@ -2,7 +2,7 @@ import { BadRequestException, Injectable, InternalServerErrorException } from '@
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, ObjectId } from 'mongoose';
 import { ViewService } from '../view/view.service';
-import { AgentProductsInquiry, ProductInput, ProductsInquiry } from '../../libs/dto/product/product.input';
+import { AgentProductsInquiry, AllProductsInquiry, ProductInput, ProductsInquiry } from '../../libs/dto/product/product.input';
 import { Product, Products } from '../../libs/dto/product/product';
 import { Direction, Message } from '../../libs/enums/common.enum';
 import { MemberService } from '../member/member.service';
@@ -190,5 +190,36 @@ export class ProductService {
 				{ new: true },
 			)
 			.exec();
+	}
+
+  /** ADMIN **/
+
+	public async getAllProductsByAdmin(input: AllProductsInquiry): Promise<Products> {
+		const { productStatus } = input.search;
+		const match: T = {};
+		const sort: T = { [input?.sort ?? 'createdAt']: input?.direction ?? Direction.DESC };
+
+		if (productStatus) match.productStatus = productStatus;
+
+		const result = await this.productModel
+			.aggregate([
+				{ $match: match },
+				{ $sort: sort },
+				{
+					$facet: {
+						list: [
+							{ $skip: (input.page - 1) * input.limit },
+							{ $limit: input.limit },
+							lookupMember,
+							{ $unwind: '$memberData' },
+						],
+						metaCounter: [{ $count: 'total' }],
+					},
+				},
+			])
+			.exec();
+
+		if (!result.length) throw new InternalServerErrorException(Message.NO_DATA_FOUND);
+		return result[0];
 	}
 }
