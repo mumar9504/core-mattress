@@ -91,7 +91,6 @@ registerEnumType(ProductDiningTableType, {
 });
 
 export enum ProductStatus {
-	HOLD = 'HOLD',
 	ACTIVE = 'ACTIVE',
 	SOLD = 'SOLD',
 	DELETE = 'DELETE',
