@@ -61,13 +61,13 @@ const ProductSchema = new Schema(
 		productMattressThickness: {
 			type: String,
 			enum: ProductMattressThickness,
-			required: true,
+			required: false,
 		},
 
 		productBadMattressSize: {
 			type: String,
 			enum: ProductBadMattressSize,
-			required: true,
+			required: false,
 		},
 
 		productViews: {

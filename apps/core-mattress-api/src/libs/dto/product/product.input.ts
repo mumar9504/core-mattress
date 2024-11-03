@@ -36,12 +36,12 @@ export class ProductInput {
 	@Field(() => Number)
 	productPrice: number;
 
-	@IsNotEmpty()
-	@Field(() => ProductMattressThickness)
+	@IsOptional()
+	@Field(() => ProductMattressThickness, { nullable: true })
 	productMattressThickness?: ProductMattressThickness;
 
-	@IsNotEmpty()
-	@Field(() => ProductBadMattressSize)
+	@IsOptional()
+	@Field(() => ProductBadMattressSize, { nullable: true })
 	productBadMattressSize?: ProductBadMattressSize;
 
 	@IsNotEmpty()
@@ -61,14 +61,14 @@ export class ProductInput {
 }
 
 
-// @InputType()
-// export class PricesRange {
-// 	@Field(() => Int)
-// 	start: number;
+@InputType()
+export class PricesRange {
+	@Field(() => Int)
+	start: number;
 
-// 	@Field(() => Int)
-//     end: number;
-//  }
+	@Field(() => Int)
+    end: number;
+ }
 
 // @InputType()
 // export class SquaresRange { 
@@ -79,77 +79,88 @@ export class ProductInput {
 //     end: number;
 // }
 
-// @InputType()
-// export class PeriodsRange {
-// 	@Field(() => Date)
-// 	start: Date;
+@InputType()
+export class PeriodsRange {
+	@Field(() => Date)
+	start: Date;
 
-// 	@Field(() => Date)
-//     end: Date;
-//  }
+	@Field(() => Date)
+    end: Date;
+ }
 
-// @InputType()
-// class PISearch { 
-// 	@IsOptional()
-// 	@Field(() => String, { nullable: true })
-// 	memberId?: ObjectId;
+@InputType()
+class PISearch { 
+	@IsOptional()
+	@Field(() => String, { nullable: true })
+	memberId?: ObjectId;
+
+	@IsOptional()
+  @Field(() => [ProductCategory], { nullable: true })
+	productCategoryList?: ProductCategory[];
 	
-//     @IsOptional()
-//     @Field(() => [ProductType], { nullable: true })
-// 	typeList?: ProductType[];
-	
-// 	// @IsOptional()
-//   //   @Field(() => [Int], { nullable: true })
-// 	// roomsList?: Number[];
-	
-// 	// @IsOptional()
-//   //   @Field(() => [Int], { nullable: true })
-// 	// bedsList?: Number[];
-	
-// 	// @IsOptional()
-// 	// @IsIn(availableOptions, { each: true })
-// 	// @Field(() => [String], {nullable: true})
-// 	// options?: string[];
+  @IsOptional()
+  @Field(() => [ProductType], { nullable: true })
+	productTypeList?: ProductType[];
 
-// 	@IsOptional()
-//     @Field(() => PricesRange, { nullable: true })
-// 	pricesRange?: PricesRange;
+	@IsOptional()
+	@Field(() => [ProductChairType], { nullable: true })
+	productChairTypeList?: ProductChairType[];
 
-// 	@IsOptional()
-//     @Field(() => PeriodsRange, { nullable: true })
-// 	periodsRange?: PeriodsRange;
+	@IsOptional()
+	@Field(() => [ProductSofaType], { nullable: true })
+	productSofaTypeList?: ProductSofaType[];
 
-// 	@IsOptional()
-//     @Field(() => String, { nullable: true })
-// 	text?: string;
-// }
+	@IsOptional()
+	@Field(() => [ProductDiningTableType], { nullable: true })
+	productDiningTableTypeList?: ProductDiningTableType[];
+
+	@IsOptional()
+	@Field(() => [ProductMattressThickness], { nullable: true })
+	productMattressThickness?: ProductMattressThickness[];
+
+	@IsOptional()
+	@Field(() => [ProductBadMattressSize], { nullable: true })
+	productBadMattressSize?: ProductBadMattressSize[];
+
+	@IsOptional()
+    @Field(() => PricesRange, { nullable: true })
+	pricesRange?: PricesRange;
+
+	@IsOptional()
+    @Field(() => PeriodsRange, { nullable: true })
+	periodsRange?: PeriodsRange;
+
+	@IsOptional()
+    @Field(() => String, { nullable: true })
+	text?: string;
+}
 
 
-// @InputType()
-// export class ProductsInquiry {
-// 	@IsNotEmpty()
-// 	@Min(1)
-// 	@Field(() => Int)
-// 	page: number;
+@InputType()
+export class ProductsInquiry {
+	@IsNotEmpty()
+	@Min(1)
+	@Field(() => Int)
+	page: number;
 
-// 	@IsNotEmpty()
-// 	@Min(1)
-// 	@Field(() => Int)
-// 	limit: number;
+	@IsNotEmpty()
+	@Min(1)
+	@Field(() => Int)
+	limit: number;
 
-// 	@IsOptional()
-// 	@IsIn(availableProductSorts)
-// 	@Field(() => String, {nullable: true})
-// 	sort?: string;
+	@IsOptional()
+	@IsIn(availableProductSorts)
+	@Field(() => String, {nullable: true})
+	sort?: string;
 
-// 	@IsOptional()
-// 	@Field(() => Direction, {nullable: true})
-// 	direction?: Direction;
+	@IsOptional()
+	@Field(() => Direction, {nullable: true})
+	direction?: Direction;
 
-// 	@IsNotEmpty()
-// 	@Field(() => PISearch)
-// 	search: PISearch;
-// }
+	@IsNotEmpty()
+	@Field(() => PISearch)
+	search: PISearch;
+}
 
 // @InputType()
 // class APISearch {

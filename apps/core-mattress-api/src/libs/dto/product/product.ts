@@ -36,10 +36,10 @@ export class Product {
 	@Field(() => ProductStatus)
 	productStatus: ProductStatus;
 
-	@Field(() => ProductMattressThickness)
+	@Field(() => ProductMattressThickness, { nullable: true })
 	productMattressThickness?: ProductMattressThickness;
 
-	@Field(() => ProductBadMattressSize)
+	@Field(() => ProductBadMattressSize, { nullable: true })
 	productBadMattressSize?: ProductBadMattressSize;
 
 	@Field(() => String)
@@ -92,11 +92,11 @@ export class Product {
 	memberData?: Member;
 }
 
-// @ObjectType()
-// export class Products {
-// 	@Field(() => [Product])
-// 	list: Product[];
+@ObjectType()
+export class Products {
+	@Field(() => [Product])
+	list: Product[];
 
-// 	@Field(() => [TotalCounter], { nullable: true })
-// 	metaCounter: TotalCounter[];
-// }
+	@Field(() => [TotalCounter], { nullable: true })
+	metaCounter: TotalCounter[];
+}
