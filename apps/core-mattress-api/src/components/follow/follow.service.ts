@@ -7,6 +7,7 @@ import { Direction, Message } from '../../libs/enums/common.enum';
 import { FollowInquiry } from '../../libs/dto/follow/follow.input';
 import { T } from '../../libs/types/common';
 import {
+	lookupAuthMemberLiked,
 	lookupFollowerData,
 	lookupFollowingData,
 } from '../../libs/config';
@@ -80,6 +81,7 @@ export class FollowService {
 							{ $skip: (page - 1) * limit },
 							{ $limit: limit },
 							// meLiked
+							lookupAuthMemberLiked(memberId, '$followingId'),
 							// meFollowed
 							
 							lookupFollowingData,
@@ -112,6 +114,7 @@ export class FollowService {
 							{ $skip: (page - 1) * limit },
 							{ $limit: limit },
 							// meLiked
+							lookupAuthMemberLiked(memberId, '$followerId'),
 							// meFollowed
 							
 							lookupFollowerData,
