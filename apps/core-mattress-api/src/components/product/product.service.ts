@@ -155,6 +155,10 @@ export class ProductService {
 		return await this.likeService.getFavoriteProducts(memberId, input);
 	}
 
+	public async getVisited(memberId: ObjectId, input: OrdinaryInquiry): Promise<Products> {
+		return await this.viewService.getVisitedProducts(memberId, input);
+	}
+
   public async getAgentProducts(memberId: ObjectId, input: AgentProductsInquiry): Promise<Products> {
 		const { productStatus } = input.search;
 		if (productStatus === ProductStatus.DELETE) throw new BadRequestException(Message.NOT_ALLOWED_REQUEST);
