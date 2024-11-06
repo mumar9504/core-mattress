@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
-export class CoreMattressBatchService {
+export class BatchService {
   getHello(): string {
     return 'Welcome to CORE MATTRESS BATCH server!';
   }
