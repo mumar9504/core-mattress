@@ -2,7 +2,7 @@ import { BadRequestException, Injectable, InternalServerErrorException } from '@
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, ObjectId } from 'mongoose';
 import { ViewService } from '../view/view.service';
-import { AgentProductsInquiry, AllProductsInquiry, ProductInput, ProductsInquiry } from '../../libs/dto/product/product.input';
+import { AgentProductsInquiry, AllProductsInquiry, OrdinaryInquiry, ProductInput, ProductsInquiry } from '../../libs/dto/product/product.input';
 import { Product, Products } from '../../libs/dto/product/product';
 import { Direction, Message } from '../../libs/enums/common.enum';
 import { MemberService } from '../member/member.service';
@@ -149,7 +149,10 @@ export class ProductService {
 		if (periodsRange) match.createdAt = { $gte: periodsRange.start, $lte: periodsRange.end };
 
 		if (text) match.productTitle = { $regex: new RegExp(text, 'i') };
+	}
 
+	public async getFavorites(memberId: ObjectId, input: OrdinaryInquiry): Promise<Products> {
+		return await this.likeService.getFavoriteProducts(memberId, input);
 	}
 
   public async getAgentProducts(memberId: ObjectId, input: AgentProductsInquiry): Promise<Products> {
