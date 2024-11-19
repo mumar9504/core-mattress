@@ -1,4 +1,4 @@
-import { Args, Mutation, Resolver } from '@nestjs/graphql';
+import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { FollowService } from './follow.service';
 import { UseGuards } from '@nestjs/common';
 import { AuthGuard } from '../auth/guards/auth.guard';
@@ -30,24 +30,24 @@ export class FollowResolver {
 	}
 
 	@UseGuards(WithoutGuard)
-	@Mutation((returns) => Followings)
+	@Query((returns) => Followings)
 	public async getMemberFollowings(
 		@Args('input') input: FollowInquiry,
 		@AuthMember('_id') memberId: ObjectId,
 	): Promise<Followings> {
-		console.log('Mutation: getMemberFollowings');
+		console.log('Query: getMemberFollowings');
 		const { followerId } = input.search;
 		input.search.followerId = shapeIntoMongoObjectId(followerId);
 		return await this.followService.getMemberFollowings(memberId, input);
 	}
 
 	@UseGuards(WithoutGuard)
-	@Mutation((returns) => Followers)
+	@Query((returns) => Followers)
 	public async getMemberFollowers(
 		@Args('input') input: FollowInquiry,
 		@AuthMember('_id') memberId: ObjectId,
 	): Promise<Followers> {
-		console.log('Mutation: getMemberFollowers');
+		console.log('Query: getMemberFollowers');
 		const { followingId } = input.search;
 		input.search.followingId = shapeIntoMongoObjectId(followingId);
 		return await this.followService.getMemberFollowers(memberId, input);

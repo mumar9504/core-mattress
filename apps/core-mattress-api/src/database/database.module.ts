@@ -10,7 +10,6 @@ import { Connection } from 'mongoose';
 			}),
 		}),
 	],
-	providers: [],
 	exports: [MongooseModule],
 })
 export class DatabaseModule {

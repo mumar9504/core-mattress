@@ -1,6 +1,15 @@
 import { Field, InputType, Int } from '@nestjs/graphql';
 import { IsIn, IsInt, IsNotEmpty, IsOptional, Length, Min } from 'class-validator';
-import { ProductBadMattressSize, ProductCategory, ProductChairType, ProductDiningTableType, ProductMattressThickness, ProductSofaType, ProductStatus, ProductType } from '../../enums/product.enum';
+import {
+	ProductMattressSize,
+	ProductCategory,
+	ProductChairType,
+	ProductDiningTableType,
+	ProductMattressThickness,
+	ProductSofaType,
+	ProductStatus,
+	ProductType,
+} from '../../enums/product.enum';
 import { ObjectId } from 'mongoose';
 import { availableProductSorts } from '../../config';
 import { Direction } from '../../enums/common.enum';
@@ -15,16 +24,16 @@ export class ProductInput {
 	@Field(() => ProductType)
 	productType: ProductType;
 
-	@IsOptional() 
-	@Field(() => ProductChairType, { nullable: true }) 
+	@IsOptional()
+	@Field(() => ProductChairType, { nullable: true })
 	productChairType?: ProductChairType;
 
-	@IsOptional() 
-	@Field(() => ProductSofaType, { nullable: true }) 
+	@IsOptional()
+	@Field(() => ProductSofaType, { nullable: true })
 	productSofaType?: ProductSofaType;
 
-	@IsOptional() 
-	@Field(() => ProductDiningTableType, { nullable: true }) 
+	@IsOptional()
+	@Field(() => ProductDiningTableType, { nullable: true })
 	productDiningTableType?: ProductDiningTableType;
 
 	@IsNotEmpty()
@@ -41,8 +50,10 @@ export class ProductInput {
 	productMattressThickness?: ProductMattressThickness;
 
 	@IsOptional()
-	@Field(() => ProductBadMattressSize, { nullable: true })
-	productBadMattressSize?: ProductBadMattressSize;
+	@IsInt()
+	@Min(1)
+	@Field(() => ProductMattressSize, { nullable: true })
+	productMattressSize?: ProductMattressSize;
 
 	@IsNotEmpty()
 	@Field(() => [String])
@@ -60,15 +71,14 @@ export class ProductInput {
 	constructedAt?: Date;
 }
 
-
 @InputType()
 export class PricesRange {
 	@Field(() => Int)
 	start: number;
 
 	@Field(() => Int)
-    end: number;
- }
+	end: number;
+}
 
 @InputType()
 export class PeriodsRange {
@@ -76,56 +86,55 @@ export class PeriodsRange {
 	start: Date;
 
 	@Field(() => Date)
-    end: Date;
- }
+	end: Date;
+}
 
 @InputType()
-class PISearch { 
+class PISearch {
 	@IsOptional()
 	@Field(() => String, { nullable: true })
 	memberId?: ObjectId;
 
 	@IsOptional()
-  @Field(() => [ProductCategory], { nullable: true })
-	productCategoryList?: ProductCategory[];
-	
-  @IsOptional()
-  @Field(() => [ProductType], { nullable: true })
-	productTypeList?: ProductType[];
+	@Field(() => [ProductCategory], { nullable: true })
+	categoryList?: ProductCategory[];
+
+	@IsOptional()
+	@Field(() => [ProductType], { nullable: true })
+	typeList?: ProductType[];
 
 	@IsOptional()
 	@Field(() => [ProductChairType], { nullable: true })
-	productChairTypeList?: ProductChairType[];
+	chairTypeList?: ProductChairType[];
 
 	@IsOptional()
 	@Field(() => [ProductSofaType], { nullable: true })
-	productSofaTypeList?: ProductSofaType[];
+	sofaTypeList?: ProductSofaType[];
 
 	@IsOptional()
 	@Field(() => [ProductDiningTableType], { nullable: true })
-	productDiningTableTypeList?: ProductDiningTableType[];
+	diningTableTypeList?: ProductDiningTableType[];
 
 	@IsOptional()
 	@Field(() => [ProductMattressThickness], { nullable: true })
-	productMattressThickness?: ProductMattressThickness[];
+	mattressThicknessList?: ProductMattressThickness[];
 
 	@IsOptional()
-	@Field(() => [ProductBadMattressSize], { nullable: true })
-	productBadMattressSize?: ProductBadMattressSize[];
+	@Field(() => [ProductMattressSize], { nullable: true })
+	mattressSizeList?: ProductMattressSize[];
 
 	@IsOptional()
-    @Field(() => PricesRange, { nullable: true })
+	@Field(() => PricesRange, { nullable: true })
 	pricesRange?: PricesRange;
 
 	@IsOptional()
-    @Field(() => PeriodsRange, { nullable: true })
+	@Field(() => PeriodsRange, { nullable: true })
 	periodsRange?: PeriodsRange;
 
 	@IsOptional()
-    @Field(() => String, { nullable: true })
+	@Field(() => String, { nullable: true })
 	text?: string;
 }
-
 
 @InputType()
 export class ProductsInquiry {
@@ -141,11 +150,11 @@ export class ProductsInquiry {
 
 	@IsOptional()
 	@IsIn(availableProductSorts)
-	@Field(() => String, {nullable: true})
+	@Field(() => String, { nullable: true })
 	sort?: string;
 
 	@IsOptional()
-	@Field(() => Direction, {nullable: true})
+	@Field(() => Direction, { nullable: true })
 	direction?: Direction;
 
 	@IsNotEmpty()
@@ -174,11 +183,11 @@ export class AgentProductsInquiry {
 
 	@IsOptional()
 	@IsIn(availableProductSorts)
-	@Field(() => String, {nullable: true})
+	@Field(() => String, { nullable: true })
 	sort?: string;
 
 	@IsOptional()
-	@Field(() => Direction, {nullable: true})
+	@Field(() => Direction, { nullable: true })
 	direction?: Direction;
 
 	@IsNotEmpty()
@@ -192,9 +201,9 @@ class ALPISearch {
 	@Field(() => ProductStatus, { nullable: true })
 	productStatus?: ProductStatus;
 
-	// @IsOptional()
-	// @Field(() => [ProductLocation], { nullable: true })
-	// productLocationList?: ProductLocation[];
+	@IsOptional()
+	@Field(() => [ProductCategory], { nullable: true })
+	productCategoryList?: ProductCategory[];
 }
 
 @InputType()

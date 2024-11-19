@@ -1,6 +1,6 @@
 import { Schema } from 'mongoose';
 import {
-	ProductBadMattressSize,
+	ProductMattressSize,
 	ProductCategory,
 	ProductChairType,
 	ProductDiningTableType,
@@ -12,6 +12,12 @@ import {
 
 const ProductSchema = new Schema(
 	{
+		productCategory: {
+			type: String,
+			enum: ProductCategory,
+			required: true,
+		},
+
 		productType: {
 			type: String,
 			enum: ProductType,
@@ -21,31 +27,25 @@ const ProductSchema = new Schema(
 		productChairType: {
 			type: String,
 			enum: ProductChairType,
-			required: false, // required olib tashlandi yoki false qilib belgilandi
+			required: false, 
 		},
 
 		productSofaType: {
 			type: String,
 			enum: ProductSofaType,
-			required: false, // required olib tashlandi yoki false qilib belgilandi
+			required: false, 
 		},
 
 		productDiningTableType: {
 			type: String,
 			enum: ProductDiningTableType,
-			required: false, // required olib tashlandi yoki false qilib belgilandi
+			required: false, 
 		},
 
 		productStatus: {
 			type: String,
 			enum: ProductStatus,
 			default: ProductStatus.ACTIVE,
-		},
-
-		productCategory: {
-			type: String,
-			enum: ProductCategory,
-			required: true,
 		},
 
 		productTitle: {
@@ -64,10 +64,10 @@ const ProductSchema = new Schema(
 			required: false,
 		},
 
-		productBadMattressSize: {
+		productMattressSize: {
 			type: String,
-			enum: ProductBadMattressSize,
-			required: false,
+			enum: ProductMattressSize,
+			required: true,
 		},
 
 		productViews: {
@@ -120,6 +120,6 @@ const ProductSchema = new Schema(
 	{ timestamps: true, collection: 'products' },
 );
 
-ProductSchema.index({ productType: 1, productBadMattressSize: 1, productTitle: 1, productPrice: 1 }, { unique: true });
+ProductSchema.index({ productCategory: 1, productType: 1, productMattressSize: 1, productTitle: 1, productPrice: 1 }, { unique: true });
 
 export default ProductSchema;

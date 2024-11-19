@@ -2,7 +2,13 @@ import { BadRequestException, Injectable, InternalServerErrorException } from '@
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, ObjectId } from 'mongoose';
 import { ViewService } from '../view/view.service';
-import { AgentProductsInquiry, AllProductsInquiry, OrdinaryInquiry, ProductInput, ProductsInquiry } from '../../libs/dto/product/product.input';
+import {
+	AgentProductsInquiry,
+	AllProductsInquiry,
+	OrdinaryInquiry,
+	ProductInput,
+	ProductsInquiry,
+} from '../../libs/dto/product/product.input';
 import { Product, Products } from '../../libs/dto/product/product';
 import { Direction, Message } from '../../libs/enums/common.enum';
 import { MemberService } from '../member/member.service';
@@ -18,14 +24,14 @@ import { LikeService } from '../like/like.service';
 
 @Injectable()
 export class ProductService {
-  constructor(
-    @InjectModel('Product') private readonly productModel: Model<Product>,
-    private readonly memberService: MemberService,
-    private readonly viewService: ViewService,
+	constructor(
+		@InjectModel('Product') private readonly productModel: Model<Product>,
+		private readonly memberService: MemberService,
+		private readonly viewService: ViewService,
 		private readonly likeService: LikeService,
-  ) {}
+	) {}
 
-  public async createProduct(input: ProductInput): Promise<Product> {
+	public async createProduct(input: ProductInput): Promise<Product> {
 		try {
 			const result = await this.productModel.create(input);
 			// increase memberProducts
@@ -41,13 +47,13 @@ export class ProductService {
 		}
 	}
 
-  public async getProduct(memberId: ObjectId, productId: ObjectId): Promise<Product> {
+	public async getProduct(memberId: ObjectId, productId: ObjectId): Promise<Product> {
 		const search: T = {
 			_id: productId,
 			productStatus: ProductStatus.ACTIVE,
 		};
 
-		const targetProduct = await this.productModel.findOne(search).lean().exec() as Product;
+		const targetProduct = (await this.productModel.findOne(search).lean().exec()) as Product;
 		if (!targetProduct) throw new InternalServerErrorException(Message.NO_DATA_FOUND);
 
 		if (memberId) {
@@ -66,7 +72,7 @@ export class ProductService {
 		return targetProduct;
 	}
 
-  public async updateProduct(memberId: ObjectId, input: ProductUpdate): Promise<Product> {
+	public async updateProduct(memberId: ObjectId, input: ProductUpdate): Promise<Product> {
 		let { productStatus, soldAt, deletedAt } = input;
 		const search: T = {
 			_id: input._id,
@@ -94,7 +100,7 @@ export class ProductService {
 		return result;
 	}
 
-  public async getProducts(memberId: ObjectId, input: ProductsInquiry): Promise<Products> {
+	public async getProducts(memberId: ObjectId, input: ProductsInquiry): Promise<Products> {
 		const match: T = { productStatus: ProductStatus.ACTIVE };
 		const sort: T = { [input?.sort ?? 'createdAt']: input?.direction ?? Direction.DESC };
 
@@ -112,7 +118,7 @@ export class ProductService {
 							{ $limit: input.limit },
 							// meLiked
 							lookupAuthMemberLiked(memberId),
-              lookupMember,
+							lookupMember,
 							{ $unwind: '$memberData' },
 						],
 
@@ -129,21 +135,24 @@ export class ProductService {
 	private shapeMatchQuery(match: T, input: ProductsInquiry): void {
 		const {
 			memberId,
-			productCategoryList,
-			productChairTypeList,
-			productSofaTypeList,
-      productDiningTableTypeList,
-			productTypeList,
+			categoryList,
+			//chairTypeList,
+			//sofaTypeList,
+			//diningTableTypeList,
+			typeList,
+			mattressSizeList,
 			pricesRange,
 			periodsRange,
 			text,
 		} = input.search;
 		if (memberId) match.memberId = shapeIntoMongoObjectId(memberId);
-		if (productCategoryList && productCategoryList.length) match.productLocation = { $in: productCategoryList };
-		if (productChairTypeList && productChairTypeList.length) match.productRooms = { $in: productChairTypeList };
-		if (productSofaTypeList && productSofaTypeList.length) match.productBeds = { $in: productSofaTypeList };
-    if (productDiningTableTypeList && productDiningTableTypeList.length) match.productBaths = { $in: productDiningTableTypeList };
-		if (productTypeList && productTypeList.length) match.productType = { $in: productTypeList };
+		if (categoryList && categoryList.length) match.productCategory = { $in: categoryList };
+		//if (chairTypeList && chairTypeList.length) match.productChairType = { $in: chairTypeList };
+		//if (sofaTypeList && sofaTypeList.length) match.productSofaType = { $in: sofaTypeList };
+		//if (diningTableTypeList && diningTableTypeList.length)
+			//match.productBaths = { $in: diningTableTypeList };
+		if (typeList && typeList.length) match.productType = { $in: typeList };
+		if (mattressSizeList && mattressSizeList.length) match.productMattressSize = { $in: mattressSizeList };
 
 		if (pricesRange) match.productPrice = { $gte: pricesRange.start, $lte: pricesRange.end };
 		if (periodsRange) match.createdAt = { $gte: periodsRange.start, $lte: periodsRange.end };
@@ -159,7 +168,7 @@ export class ProductService {
 		return await this.viewService.getVisitedProducts(memberId, input);
 	}
 
-  public async getAgentProducts(memberId: ObjectId, input: AgentProductsInquiry): Promise<Products> {
+	public async getAgentProducts(memberId: ObjectId, input: AgentProductsInquiry): Promise<Products> {
 		const { productStatus } = input.search;
 		if (productStatus === ProductStatus.DELETE) throw new BadRequestException(Message.NOT_ALLOWED_REQUEST);
 
@@ -211,14 +220,15 @@ export class ProductService {
 		return result;
 	}
 
-  /** ADMIN **/
+	/** ADMIN **/
 
 	public async getAllProductsByAdmin(input: AllProductsInquiry): Promise<Products> {
-		const { productStatus } = input.search;
+		const { productStatus, productCategoryList } = input.search;
 		const match: T = {};
 		const sort: T = { [input?.sort ?? 'createdAt']: input?.direction ?? Direction.DESC };
 
 		if (productStatus) match.productStatus = productStatus;
+		if (productCategoryList) match.productCategory = { $in: productCategoryList };
 
 		const result = await this.productModel
 			.aggregate([
@@ -242,7 +252,7 @@ export class ProductService {
 		return result[0];
 	}
 
-  public async updateProductByAdmin(input: ProductUpdate): Promise<Product> {
+	public async updateProductByAdmin(input: ProductUpdate): Promise<Product> {
 		let { productStatus, soldAt, deletedAt } = input;
 		const search: T = {
 			_id: input._id,
@@ -269,7 +279,7 @@ export class ProductService {
 		return result;
 	}
 
-  public async removeProductByAdmin(productId: ObjectId): Promise<Product> {
+	public async removeProductByAdmin(productId: ObjectId): Promise<Product> {
 		const search: T = { _id: productId, productStatus: ProductStatus.DELETE };
 		const result = await this.productModel.findOneAndDelete(search).exec();
 		if (!result) throw new InternalServerErrorException(Message.REMOVE_FAILED);
@@ -277,7 +287,7 @@ export class ProductService {
 		return result;
 	}
 
-  public async productStatsEditor(input: StatisticModifier): Promise<Product> {
+	public async productStatsEditor(input: StatisticModifier): Promise<Product> {
 		const { _id, targetKey, modifier } = input;
 		return await this.productModel
 			.findByIdAndUpdate(

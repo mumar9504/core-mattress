@@ -1,7 +1,7 @@
 import { Field, Int, ObjectType } from '@nestjs/graphql';
 import { ObjectId } from 'mongoose';
 import {
-  ProductBadMattressSize,
+  ProductMattressSize,
 	ProductCategory,
 	ProductChairType,
 	ProductDiningTableType,
@@ -12,7 +12,6 @@ import {
 } from '../../enums/product.enum';
 import { Member, TotalCounter } from '../member/member';
 import { MeLiked } from '../like/like';
-//import { MeLiked } from '../like/like';
 
 @ObjectType()
 export class Product {
@@ -40,8 +39,8 @@ export class Product {
 	@Field(() => ProductMattressThickness, { nullable: true })
 	productMattressThickness?: ProductMattressThickness;
 
-	@Field(() => ProductBadMattressSize, { nullable: true })
-	productBadMattressSize?: ProductBadMattressSize;
+	@Field(() => ProductMattressSize, { nullable: true })
+	productMattressSize?: ProductMattressSize;
 
 	@Field(() => String)
 	productTitle: string;
