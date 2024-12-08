@@ -135,24 +135,26 @@ export class ProductService {
 	private shapeMatchQuery(match: T, input: ProductsInquiry): void {
 		const {
 			memberId,
-			categoryList,
+			roomTypeList,
 			//chairTypeList,
 			//sofaTypeList,
 			//diningTableTypeList,
 			typeList,
 			mattressSizeList,
+			bedSizeList,
 			pricesRange,
 			periodsRange,
 			text,
 		} = input.search;
 		if (memberId) match.memberId = shapeIntoMongoObjectId(memberId);
-		if (categoryList && categoryList.length) match.productCategory = { $in: categoryList };
+		if (roomTypeList && roomTypeList.length) match.productRoomType = { $in: roomTypeList };
 		//if (chairTypeList && chairTypeList.length) match.productChairType = { $in: chairTypeList };
 		//if (sofaTypeList && sofaTypeList.length) match.productSofaType = { $in: sofaTypeList };
 		//if (diningTableTypeList && diningTableTypeList.length)
 			//match.productBaths = { $in: diningTableTypeList };
 		if (typeList && typeList.length) match.productType = { $in: typeList };
 		if (mattressSizeList && mattressSizeList.length) match.productMattressSize = { $in: mattressSizeList };
+		if (bedSizeList && bedSizeList.length) match.productBedSize = { $in: bedSizeList };
 
 		if (pricesRange) match.productPrice = { $gte: pricesRange.start, $lte: pricesRange.end };
 		if (periodsRange) match.createdAt = { $gte: periodsRange.start, $lte: periodsRange.end };
@@ -223,12 +225,12 @@ export class ProductService {
 	/** ADMIN **/
 
 	public async getAllProductsByAdmin(input: AllProductsInquiry): Promise<Products> {
-		const { productStatus, productCategoryList } = input.search;
+		const { productStatus, productRoomTypeList } = input.search;
 		const match: T = {};
 		const sort: T = { [input?.sort ?? 'createdAt']: input?.direction ?? Direction.DESC };
 
 		if (productStatus) match.productStatus = productStatus;
-		if (productCategoryList) match.productCategory = { $in: productCategoryList };
+		if (productRoomTypeList) match.productRoomType = { $in: productRoomTypeList };
 
 		const result = await this.productModel
 			.aggregate([

@@ -1,7 +1,8 @@
 import { Schema } from 'mongoose';
 import {
 	ProductMattressSize,
-	ProductCategory,
+	ProductBedSize,
+	ProductRoomType,
 	ProductChairType,
 	ProductDiningTableType,
 	ProductMattressThickness,
@@ -12,9 +13,9 @@ import {
 
 const ProductSchema = new Schema(
 	{
-		productCategory: {
+		productRoomType: {
 			type: String,
-			enum: ProductCategory,
+			enum: ProductRoomType,
 			required: true,
 		},
 
@@ -67,7 +68,13 @@ const ProductSchema = new Schema(
 		productMattressSize: {
 			type: String,
 			enum: ProductMattressSize,
-			required: true,
+			required: false,
+		},
+
+		productBedSize: {
+			type: String,
+			enum: ProductBedSize,
+			required: false,
 		},
 
 		productViews: {
@@ -120,6 +127,6 @@ const ProductSchema = new Schema(
 	{ timestamps: true, collection: 'products' },
 );
 
-ProductSchema.index({ productCategory: 1, productType: 1, productMattressSize: 1, productTitle: 1, productPrice: 1 }, { unique: true });
+ProductSchema.index({ productRoomType: 1, productType: 1, productTitle: 1, productPrice: 1 }, { unique: true });
 
 export default ProductSchema;
