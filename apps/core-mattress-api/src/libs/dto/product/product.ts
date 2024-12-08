@@ -2,7 +2,8 @@ import { Field, Int, ObjectType } from '@nestjs/graphql';
 import { ObjectId } from 'mongoose';
 import {
   ProductMattressSize,
-	ProductCategory,
+  ProductBedSize,
+	ProductRoomType,
 	ProductChairType,
 	ProductDiningTableType,
 	ProductMattressThickness,
@@ -18,8 +19,8 @@ export class Product {
 	@Field(() => String)
 	_id: ObjectId;
 
-	@Field(() => ProductCategory)
-	productCategory: ProductCategory;
+	@Field(() => ProductRoomType)
+	productRoomType: ProductRoomType;
 
 	@Field(() => ProductType)
 	productType: ProductType;
@@ -41,6 +42,9 @@ export class Product {
 
 	@Field(() => ProductMattressSize, { nullable: true })
 	productMattressSize?: ProductMattressSize;
+
+	@Field(() => ProductBedSize, { nullable: true })
+	productBedSize?: ProductBedSize;
 
 	@Field(() => String)
 	productTitle: string;

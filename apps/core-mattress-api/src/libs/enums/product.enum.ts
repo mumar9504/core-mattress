@@ -1,13 +1,13 @@
 import { registerEnumType } from '@nestjs/graphql';
 
-export enum ProductCategory {
+export enum ProductRoomType {
 	BEDROOM = 'BEDROOM', // 침실
 	LIVINGROOM = 'LIVINGROOM', // 거실
 	KITCHEN = 'KITCHEN', // 주방
 }
 
-registerEnumType(ProductCategory, {
-	name: 'ProductCategory',
+registerEnumType(ProductRoomType, {
+	name: 'ProductRoomType',
 });
 
 export enum ProductType {
@@ -120,10 +120,24 @@ export enum ProductMattressSize {
 	DOUBLE = 'D', // 더블매트리스 => D
 	QUEEN = 'Q', // 퀸매트리스 => Q
 	KING = 'K', // 킹매트리스 => K
+	LARGE_KING = 'LK', // 라지킹매트리스 => LK
 }
 
 registerEnumType(ProductMattressSize, {
 	name: 'ProductMattressSize',
+});
+
+export enum ProductBedSize {
+	SINGLE = 'S', 
+	SUPER_SINGLE = 'SS', 
+	DOUBLE = 'D',  
+	QUEEN = 'Q', 
+	KING = 'K', 
+	LARGE_KING = 'LK', 
+}
+
+registerEnumType(ProductBedSize, {
+	name: 'ProductBedSize',
 });
 
 // export enum ProductLocation {

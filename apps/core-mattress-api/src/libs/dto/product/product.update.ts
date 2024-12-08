@@ -8,7 +8,8 @@ import {
 	ProductDiningTableType,
 	ProductMattressThickness,
 	ProductMattressSize,
-	ProductCategory,
+	ProductBedSize,
+	ProductRoomType,
 } from '../../enums/product.enum';
 import { ObjectId } from 'mongoose';
 
@@ -19,8 +20,8 @@ export class ProductUpdate {
 	_id: ObjectId;
 
 	@IsOptional()
-	@Field(() => ProductCategory, { nullable: true })
-	productCategory?: ProductCategory;
+	@Field(() => ProductRoomType, { nullable: true })
+	productRoomType?: ProductRoomType;
 
 	@IsOptional()
 	@Field(() => ProductType, { nullable: true })
@@ -49,6 +50,10 @@ export class ProductUpdate {
 	@IsOptional()
 	@Field(() => ProductMattressSize, { nullable: true })
 	productMattressSize?: ProductMattressSize;
+
+	@IsOptional()
+	@Field(() => ProductBedSize, { nullable: true })
+	productBedSize?: ProductBedSize;
 
 	@IsOptional()
 	@Length(3, 100)

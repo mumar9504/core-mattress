@@ -2,7 +2,8 @@ import { Field, InputType, Int } from '@nestjs/graphql';
 import { IsIn, IsInt, IsNotEmpty, IsOptional, Length, Min } from 'class-validator';
 import {
 	ProductMattressSize,
-	ProductCategory,
+	ProductBedSize,
+	ProductRoomType,
 	ProductChairType,
 	ProductDiningTableType,
 	ProductMattressThickness,
@@ -17,8 +18,8 @@ import { Direction } from '../../enums/common.enum';
 @InputType()
 export class ProductInput {
 	@IsNotEmpty()
-	@Field(() => ProductCategory)
-	productCategory: ProductCategory;
+	@Field(() => ProductRoomType)
+	productRoomType: ProductRoomType;
 
 	@IsNotEmpty()
 	@Field(() => ProductType)
@@ -54,6 +55,12 @@ export class ProductInput {
 	@Min(1)
 	@Field(() => ProductMattressSize, { nullable: true })
 	productMattressSize?: ProductMattressSize;
+
+	@IsOptional()
+	@IsInt()
+	@Min(1)
+	@Field(() => ProductBedSize, { nullable: true })
+	productBedSize?: ProductBedSize;
 
 	@IsNotEmpty()
 	@Field(() => [String])
@@ -96,8 +103,8 @@ class PISearch {
 	memberId?: ObjectId;
 
 	@IsOptional()
-	@Field(() => [ProductCategory], { nullable: true })
-	categoryList?: ProductCategory[];
+	@Field(() => [ProductRoomType], { nullable: true })
+	roomTypeList?: ProductRoomType[];
 
 	@IsOptional()
 	@Field(() => [ProductType], { nullable: true })
@@ -122,6 +129,10 @@ class PISearch {
 	@IsOptional()
 	@Field(() => [ProductMattressSize], { nullable: true })
 	mattressSizeList?: ProductMattressSize[];
+
+	@IsOptional()
+	@Field(() => [ProductBedSize], { nullable: true })
+	bedSizeList?: ProductBedSize[];
 
 	@IsOptional()
 	@Field(() => PricesRange, { nullable: true })
@@ -202,8 +213,8 @@ class ALPISearch {
 	productStatus?: ProductStatus;
 
 	@IsOptional()
-	@Field(() => [ProductCategory], { nullable: true })
-	productCategoryList?: ProductCategory[];
+	@Field(() => [ProductRoomType], { nullable: true })
+	productRoomTypeList?: ProductRoomType[];
 }
 
 @InputType()
