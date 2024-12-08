@@ -18,6 +18,7 @@ import { SocketModule } from './socket/socket.module';
 			playground: true,
 			uploads: false,
 			autoSchemaFile: true,
+			csrfPrevention: false,
 			// GRAPHQL GLOBAL ERROR HANDLING
 			formatError: (error: T) => {
 				const graphQLFormattedError = {
